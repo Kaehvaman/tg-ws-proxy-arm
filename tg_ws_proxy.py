@@ -351,9 +351,7 @@ def _ws_domains(dc: int, is_media) -> List[str]:
     DC >5:   kws{N}[-1].telegram.org
     """
     base = 'telegram.org' if dc > 5 else 'web.telegram.org'
-    if is_media is None:
-        return [f'kws{dc}-1.{base}', f'kws{dc}.{base}']
-    if is_media:
+    if is_media is None or is_media:
         return [f'kws{dc}-1.{base}', f'kws{dc}.{base}']
     return [f'kws{dc}.{base}', f'kws{dc}-1.{base}']
 
