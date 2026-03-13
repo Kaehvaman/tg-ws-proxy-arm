@@ -752,9 +752,8 @@ async def _handle_client(reader, writer):
         # Android (may be ios too) with useSecret=0 has random dc_id bytes — patch it
         if dc is None and dst in _IP_TO_DC:
             dc, is_media = _IP_TO_DC.get(dst)
-            if is_media and dc > 0: dc = -dc
             if dc in _dc_opt:
-                init = _patch_init_dc(init, dc)
+                init = _patch_init_dc(init, dc if is_media else -dc)
                 init_patched = True
 
         if dc is None or dc not in _dc_opt:
