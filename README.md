@@ -44,8 +44,15 @@ Telegram Desktop → SOCKS5 (127.0.0.1:1080) → TG WS Proxy → WSS (kws*.web.t
 
 ## Установка из исходников
 
+> Для Windows:
+
 ```bash
 pip install -r requirements.txt
+```
+
+> Для MacOS:
+```bash
+pip install -r requirements-macos.txt
 ```
 
 ### Windows (Tray-приложение)
@@ -54,7 +61,15 @@ pip install -r requirements.txt
 python windows.py
 ```
 
-### Консольный режим
+### MacOS (Tray-приложение)
+
+Перейдите на [страницу релизов](https://github.com/Flowseal/tg-ws-proxy/releases) и скачайте **`TgWsProxy.dmg`** — универсальная сборка для Apple Silicon и Intel.
+
+1. Открыть образ
+2. Перенести **TG WS Proxy.app** в папку **Applications**
+3. При первом запуске macOS может попросить подтвердить открытие: **Системные настройки → Конфиденциальность и безопасность → Всё равно открыть**
+
+### Консольный режим (Windows)
 
 ```bash
 python proxy/tg_ws_proxy.py [--port PORT] [--dc-ip DC:IP ...] [-v]
@@ -79,6 +94,11 @@ python proxy/tg_ws_proxy.py --port 9050 --dc-ip 1:149.154.175.205 --dc-ip 2:149.
 
 # С подробным логированием
 python proxy/tg_ws_proxy.py -v
+```
+
+### Консольный режим (MacOS)
+```bash
+python macos.py
 ```
 
 ## Настройка Telegram Desktop
@@ -115,10 +135,32 @@ Tray-приложение хранит данные в `%APPDATA%/TgWsProxy`:
 
 Проект содержит спецификацию PyInstaller ([`windows.spec`](packaging/windows.spec)) и GitHub Actions workflow ([`.github/workflows/build.yml`](.github/workflows/build.yml)) для автоматической сборки.
 
+> Для Windows:
+
 ```bash
 pip install pyinstaller
 pyinstaller packaging/windows.spec
 ```
+
+> Для MacOS:
+```bash
+pip install pyinstaller
+packaging/create_icon.sh
+pyinstaller packaging/macos.spec
+```
+
+> Создать универсальный DMG (local-тест с двумя копями одной архитектуры):
+```bash
+pip install pyinstaller
+packaging/create_icon.sh
+pyinstaller packaging/macos.spec --noconfirm
+cp -R "dist/TG WS Proxy.app" "dist/TG WS Proxy-intel.app"
+packaging/merge_universal2.sh \
+    "dist/TG WS Proxy.app" \
+    "dist/TG WS Proxy-intel.app" \
+    "dist/TG WS Proxy-universal.app"
+```
+- В результате в папке `dist/` появятся `.app` под текущую архитектуру и `TgWsProxy.dmg`.
 
 ## Лицензия
 
