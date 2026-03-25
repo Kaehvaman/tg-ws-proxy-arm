@@ -43,7 +43,7 @@ jobs:
           .venv/bin/pip install "pyinstaller==6.13.0"
 
       - name: Build binary with PyInstaller
-        run: .venv/bin/pyinstaller packaging/linux.spec --target-architecture arm64 --noconfirm
+        run: .venv/bin/pyinstaller packaging/linux.spec --noconfirm
 
       - name: Rename binary artifact
         run: mv dist/TgWsProxy dist/TgWsProxy_linux_arm64
@@ -74,12 +74,7 @@ jobs:
           body: |
             ## TG WS Proxy ${{ github.event.inputs.version }}
           files: |
-            dist/TgWsProxy_windows.exe
-            dist/TgWsProxy_windows_7_64bit.exe
-            dist/TgWsProxy_windows_7_32bit.exe
-            dist/TgWsProxy_macos_universal.dmg
-            dist/TgWsProxy_linux_amd64
-            dist/TgWsProxy_linux_amd64.deb
+            dist/TgWsProxy_linux_arm64
           draft: false
           prerelease: false
         env:
