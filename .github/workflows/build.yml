@@ -43,7 +43,7 @@ jobs:
           .venv/bin/pip install "pyinstaller==6.13.0"
 
       - name: Build binary with PyInstaller
-        run: .venv/bin/pyinstaller packaging/linux.spec --noconfirm --target-architecture arm64
+        run: .venv/bin/pyinstaller packaging/linux.spec --target-architecture arm64 --noconfirm
 
       - name: Rename binary artifact
         run: mv dist/TgWsProxy dist/TgWsProxy_linux_arm64
